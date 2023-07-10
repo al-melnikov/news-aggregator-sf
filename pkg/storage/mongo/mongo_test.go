@@ -7,8 +7,10 @@ import (
 	"time"
 )
 
-// TODO надо бы как-нибудь запускать тестовую базу а не ту же самую
 func TestNew(t *testing.T) {
+	DatabaseName = "test"
+	CollectionName = "test"
+
 	ctx := context.Background()
 	_, err := New(ctx, "mongodb://localhost:27017/")
 	if err != nil {
@@ -17,6 +19,9 @@ func TestNew(t *testing.T) {
 }
 
 func TestStorage_AddPost(t *testing.T) {
+	DatabaseName = "test"
+	CollectionName = "test"
+
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
@@ -36,6 +41,9 @@ func TestStorage_AddPost(t *testing.T) {
 }
 
 func TestStorage_UpdatePost(t *testing.T) {
+	DatabaseName = "test"
+	CollectionName = "test"
+
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 	db, err := New(ctx, "mongodb://localhost:27017/")
@@ -53,6 +61,9 @@ func TestStorage_UpdatePost(t *testing.T) {
 }
 
 func TestStorage_DeletePost(t *testing.T) {
+	DatabaseName = "test"
+	CollectionName = "test"
+
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 

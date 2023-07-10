@@ -20,6 +20,10 @@ type config struct {
 }
 
 func main() {
+
+	mongo.DatabaseName = "go_news"
+	mongo.CollectionName = "posts"
+
 	// инициализация зависимостей приложения
 	db, err := mongo.New(context.Background(), "mongodb://localhost:27017/")
 	if err != nil {

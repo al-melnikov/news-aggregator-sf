@@ -11,10 +11,8 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-const (
-	databaseName   = "go_news" // имя учебной БД
-	collectionName = "posts"   // имя коллекции в учебной БД
-)
+var DatabaseName string = "go_news"
+var CollectionName string = "posts"
 
 type Storage struct {
 	Db *mongo.Client
@@ -34,7 +32,7 @@ func New(ctx context.Context, constr string) (*Storage, error) {
 }
 
 func (mg *Storage) Posts(n int) ([]storage.Post, error) {
-	collection := mg.Db.Database(databaseName).Collection(collectionName)
+	collection := mg.Db.Database(DatabaseName).Collection(CollectionName)
 	filter := bson.D{}
 	opts := options.Find().SetSort(bson.D{{Key: "published_at", Value: -1}}).SetLimit(int64(n))
 	cur, err := collection.Find(context.TODO(), filter, opts)
@@ -50,7 +48,7 @@ func (mg *Storage) Posts(n int) ([]storage.Post, error) {
 }
 
 func (mg *Storage) AddPost(p storage.Post) error {
-	collection := mg.Db.Database(databaseName).Collection(collectionName)
+	collection := mg.Db.Database(DatabaseName).Collection(CollectionName)
 
 	filter := bson.D{{Key: "title", Value: p.Title}}
 	var post storage.Post
@@ -67,7 +65,7 @@ func (mg *Storage) AddPost(p storage.Post) error {
 }
 
 func (mg *Storage) DeletePost(p storage.Post) error {
-	collection := mg.Db.Database(databaseName).Collection(collectionName)
+	collection := mg.Db.Database(DatabaseName).Collection(CollectionName)
 	filter := bson.D{{Key: "title", Value: p.Title}}
 	_, err := collection.DeleteOne(context.Background(), filter)
 	if err != nil {
@@ -77,7 +75,7 @@ func (mg *Storage) DeletePost(p storage.Post) error {
 }
 
 func (mg *Storage) UpdatePost(p storage.Post) error {
-	collection := mg.Db.Database(databaseName).Collection(collectionName)
+	collection := mg.Db.Database(DatabaseName).Collection(CollectionName)
 	filter := bson.D{{Key: "title", Value: p.Title}}
 	update := bson.D{{Key: "$set", Value: bson.D{{Key: "content", Value: p.Content}}}}
 	_, err := collection.UpdateOne(context.Background(), filter, update)

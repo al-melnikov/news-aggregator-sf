@@ -12,6 +12,8 @@ import (
 )
 
 func TestAPI_postsHandler(t *testing.T) {
+	mongo.DatabaseName = "test"
+	mongo.CollectionName = "test"
 	// Создаём чистый объект API для теста.
 	dbase, err := mongo.New(context.Background(), "mongodb://localhost:27017/")
 	if err != nil {
