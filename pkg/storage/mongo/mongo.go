@@ -18,6 +18,7 @@ type Storage struct {
 	Db *mongo.Client
 }
 
+// Возвращает новый экземпляр базы данных
 func New(ctx context.Context, constr string) (*Storage, error) {
 	mongoOpts := options.Client().ApplyURI(constr)
 	client, err := mongo.Connect(ctx, mongoOpts)
@@ -31,6 +32,7 @@ func New(ctx context.Context, constr string) (*Storage, error) {
 	return &s, nil
 }
 
+// Возвращает n последних постов из базы данных
 func (mg *Storage) Posts(n int) ([]storage.Post, error) {
 	collection := mg.Db.Database(DatabaseName).Collection(CollectionName)
 	filter := bson.D{}
@@ -47,6 +49,7 @@ func (mg *Storage) Posts(n int) ([]storage.Post, error) {
 	return results, nil
 }
 
+// Добавляет новый пост в базу данных
 func (mg *Storage) AddPost(p storage.Post) error {
 	collection := mg.Db.Database(DatabaseName).Collection(CollectionName)
 
@@ -64,6 +67,7 @@ func (mg *Storage) AddPost(p storage.Post) error {
 	return nil
 }
 
+// Удаляет пост из базы данных с совпадающим title
 func (mg *Storage) DeletePost(p storage.Post) error {
 	collection := mg.Db.Database(DatabaseName).Collection(CollectionName)
 	filter := bson.D{{Key: "title", Value: p.Title}}
@@ -74,6 +78,7 @@ func (mg *Storage) DeletePost(p storage.Post) error {
 	return nil
 }
 
+// Обновляет content поста с совпадающим title
 func (mg *Storage) UpdatePost(p storage.Post) error {
 	collection := mg.Db.Database(DatabaseName).Collection(CollectionName)
 	filter := bson.D{{Key: "title", Value: p.Title}}

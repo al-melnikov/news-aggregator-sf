@@ -24,6 +24,7 @@ type XMLstruct struct {
 	ItemList []Item `xml:"channel>item"`
 }
 
+// Возвращает массив постов из rss ленты link
 func RssToStruct(link string) ([]storage.Post, error) {
 	var posts XMLstruct
 	xmlBytes, err := getXML(link)
