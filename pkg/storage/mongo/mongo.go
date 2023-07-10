@@ -49,29 +49,6 @@ func (mg *Storage) Posts(n int) ([]storage.Post, error) {
 	return results, nil
 }
 
-/*
-func (mg *Storage) Posts() ([]storage.Post, error) {
-	collection := mg.Db.Database(databaseName).Collection(collectionName)
-	//db.teams.find().sort({"field":-1}).limit(1)
-	filter := bson.D{}
-	cur, err := collection.Find(context.Background(), filter)
-	if err != nil {
-		return nil, err
-	}
-	defer cur.Close(context.Background())
-	var data []storage.Post
-	for cur.Next(context.Background()) {
-		var l storage.Post
-		err := cur.Decode(&l)
-		if err != nil {
-			return nil, err
-		}
-		data = append(data, l)
-	}
-	return data, cur.Err()
-}
-*/
-
 func (mg *Storage) AddPost(p storage.Post) error {
 	collection := mg.Db.Database(databaseName).Collection(collectionName)
 
@@ -88,16 +65,6 @@ func (mg *Storage) AddPost(p storage.Post) error {
 	}
 	return nil
 }
-
-/*
-func (mg *Storage) AddPosts(p []storage.Post) error {
-	collection := mg.Db.Database(databaseName).Collection(collectionName)
-	_, err := collection.InsertMany(context.Background(), p)
-	if err != nil {
-		return err
-	}
-	return nil
-}*/
 
 func (mg *Storage) DeletePost(p storage.Post) error {
 	collection := mg.Db.Database(databaseName).Collection(collectionName)
